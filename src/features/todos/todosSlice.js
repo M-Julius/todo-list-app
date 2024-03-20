@@ -13,7 +13,8 @@ const todoSlice = createSlice({
   },
   reducers: {
     addTodo: (state, action) => {
-      state?.list?.push(action.payload);
+      state.list = [...state.list, action.payload]
+      state.listFiltered = state.list;
     },
     deleteTodo: (state, action) => {
        state.list = state.list.filter((todo) => todo.id !== action.payload);
@@ -60,6 +61,7 @@ const todoSlice = createSlice({
         const categoryMatch =
           category === "" ||
           category === "all" ||
+
           todo.category === category
 
         const isDoneMatch = isDone === null || todo.done === isDone;

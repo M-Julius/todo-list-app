@@ -67,8 +67,8 @@ const TodoFilter = ({
               label="Filter by Category"
             >
               <MenuItem value="all">All</MenuItem>
-              {categories?.map((category) => (
-                <MenuItem key={category} value={category}>
+              {categories?.map((category, index) => (
+                <MenuItem key={index} value={category}>
                   {category}
                 </MenuItem>
               ))}
