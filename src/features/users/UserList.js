@@ -18,7 +18,7 @@ const UserList = () => {
 
   useEffect(() => {
     dispatch(getUsersAction());
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -27,13 +27,12 @@ const UserList = () => {
         <Typography variant="h4" gutterBottom sx={{ marginTop: "20px" }}>
           Users
         </Typography>
-        {loading && (
-          <Box xs={12} sx={{ textAlign: "center", marginTop: "20px" }}>
-            <CircularProgress />
-          </Box>
-        )}
         <List>
-          {users?.length === 0 ? (
+          {loading ? (
+            <Box xs={12} sx={{ textAlign: "center", marginTop: "20px" }}>
+              <CircularProgress />
+            </Box>
+          ) : users?.length === 0 ? (
             <DataNotFound />
           ) : error ? (
             <Box xs={12} sx={{ textAlign: "center", marginTop: "20px" }}>

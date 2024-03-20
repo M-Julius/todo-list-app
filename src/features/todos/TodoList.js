@@ -5,6 +5,8 @@ import {
   DialogTitle,
   List,
   Typography,
+  Box,
+  CircularProgress
 } from "@mui/material";
 import TodoForm from "./TodoForm";
 import DataNotFound from "../../components/DataNotFound";
@@ -12,7 +14,13 @@ import TodoItem from "./TodoItem";
 import { useDispatch } from "react-redux";
 import { setIndexTodo } from "./todosSlice";
 
-const TodoList = ({ todos, markAsDone, deleteTodo, setEditTodo }) => {
+const TodoList = ({
+  todos,
+  markAsDone,
+  deleteTodo,
+  setEditTodo,
+  isLoading,
+}) => {
   const dispatch = useDispatch();
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [editedTodo, setEditedTodo] = useState({
@@ -42,7 +50,12 @@ const TodoList = ({ todos, markAsDone, deleteTodo, setEditTodo }) => {
       <Typography variant="h4" gutterBottom sx={{ marginTop: "20px" }}>
         Todo List
       </Typography>
-      {todos?.length === 0 ? (
+
+      {isLoading ? (
+        <Box xs={12} sx={{ textAlign: "center", marginTop: "20px" }}>
+          <CircularProgress />
+        </Box>
+      ) : todos?.length === 0 ? (
         <DataNotFound title="No todos found!" />
       ) : (
         <List>

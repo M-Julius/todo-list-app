@@ -6,8 +6,6 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  CircularProgress,
-  Box,
 } from "@mui/material";
 import { addTodo, deleteTodo, editTodo, resetFilter, setFilter } from './todosSlice';
 import { Add as AddIcon } from "@mui/icons-material";
@@ -72,7 +70,6 @@ const Todo = () => {
   };
 
   const markAsDone = (id) => {
-
     let todo = {}
     const updatedTodos = todos.list.find((item) => item.id === id);
     todo = {...updatedTodos, done: !updatedTodos.done};
@@ -120,12 +117,8 @@ const Todo = () => {
           markAsDone={markAsDone}
           deleteTodo={deleteTodoList}
           setEditTodo={editTodoList}
+          isLoading={isLoading}
         />
-        {isLoading && (
-          <Box xs={12} sx={{ textAlign: "center", marginTop: "20px" }}>
-            <CircularProgress />
-          </Box>
-        )}
       </Container>
       <Fab
         color="primary"
