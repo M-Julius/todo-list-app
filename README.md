@@ -8,12 +8,13 @@ Todo List App is frontend for CRUD Todo using redux and feature Users with redux
 [<img src="screenshot/todo-users-public-api.png" width="500"/>](users-public-api.png)
 
 ### Currently includes:
-- [Demo App](https://vercel.app)
+- [Demo App](https://todo-list-demo-app.vercel.app/)
 - React JS
 - Redux Toolkit
 - React Redux
 - Redux Sagas
 - MUI / Material UI
+- React DnD (Drag and Drop)
 
 ### Instalation
 ```$ git clone https://github.com/M-Julius/todo-list-app.git```

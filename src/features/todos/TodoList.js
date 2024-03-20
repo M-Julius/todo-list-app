@@ -3,19 +3,17 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  IconButton,
   List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
   Typography,
-  Checkbox,
 } from "@mui/material";
-import { Delete, Edit } from "@mui/icons-material";
 import TodoForm from "./TodoForm";
 import DataNotFound from "../../components/DataNotFound";
+import TodoItem from "./TodoItem";
+import { useDispatch } from "react-redux";
+import { setIndexTodo } from "./todosSlice";
 
 const TodoList = ({ todos, markAsDone, deleteTodo, setEditTodo }) => {
+  const dispatch = useDispatch();
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [editedTodo, setEditedTodo] = useState({
     id: null,
@@ -34,6 +32,11 @@ const TodoList = ({ todos, markAsDone, deleteTodo, setEditTodo }) => {
     setEditModalVisible(true);
   };
 
+  const moveTodo = (dragIndex, hoverIndex) => {
+    const dragTodo = todos[dragIndex];
+    dispatch(setIndexTodo({ dragIndex, hoverIndex, dragTodo }));
+  };
+
   return (
     <div>
       <Typography variant="h4" gutterBottom sx={{ marginTop: "20px" }}>
@@ -43,30 +46,16 @@ const TodoList = ({ todos, markAsDone, deleteTodo, setEditTodo }) => {
         <DataNotFound title="No todos found!" />
       ) : (
         <List>
-          {todos?.map((todo) => (
-            <ListItem key={todo.id}>
-              <ListItemIcon>
-                <Checkbox
-                  checked={todo.done}
-                  onChange={() => markAsDone(todo.id)}
-                />
-              </ListItemIcon>
-              <ListItemText
-                primary={todo.title}
-                sx={{ textDecorationLine: todo.done ? "line-through" : "none" }}
-                secondary={`Description: ${todo.description}, Category: ${todo.category}`}
-              />
-              <ListItemIcon>
-                <IconButton onClick={() => openEditModal(todo)}>
-                  <Edit />
-                </IconButton>
-              </ListItemIcon>
-              <ListItemIcon>
-                <IconButton onClick={() => deleteTodo(todo.id)}>
-                  <Delete />
-                </IconButton>
-              </ListItemIcon>
-            </ListItem>
+          {todos?.map((todo, index) => (
+            <TodoItem
+              index={index}
+              key={todo.id}
+              todo={todo}
+              markAsDone={markAsDone}
+              openEditModal={openEditModal}
+              deleteTodo={deleteTodo}
+              moveItem={moveTodo}
+            />
           ))}
         </List>
       )}

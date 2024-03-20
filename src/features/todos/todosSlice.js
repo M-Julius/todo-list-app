@@ -17,9 +17,9 @@ const todoSlice = createSlice({
       state.listFiltered = state.list;
     },
     deleteTodo: (state, action) => {
-       state.list = state.list.filter((todo) => todo.id !== action.payload);
-       state.listFiltered = state.list;
-       return state;
+      state.list = state.list.filter((todo) => todo.id !== action.payload);
+      state.listFiltered = state.list;
+      return state;
     },
     editTodo: (state, action) => {
       const index = state.list.findIndex(
@@ -32,6 +32,19 @@ const todoSlice = createSlice({
         state.list[index] = action.payload;
         state.listFiltered[indexFiltered] = action.payload;
       }
+      return state;
+    },
+    setIndexTodo: (state, action) => {
+      const { dragIndex, hoverIndex, dragTodo } = action.payload;
+
+      const newTodos = [...state.list];
+
+      newTodos.splice(dragIndex, 1);
+      newTodos.splice(hoverIndex, 0, dragTodo);
+
+      state.list = newTodos.map((todo, index) => ({ ...todo, index }));
+      state.listFiltered = state.list;
+
       return state;
     },
     setFilter: (state, action) => {
@@ -59,17 +72,12 @@ const todoSlice = createSlice({
           : todo.title.toLowerCase().includes(keyword?.toLowerCase());
 
         const categoryMatch =
-          category === "" ||
-          category === "all" ||
-
-          todo.category === category
+          category === "" || category === "all" || todo.category === category;
 
         const isDoneMatch = isDone === null || todo.done === isDone;
 
-
         return keywordMatch && categoryMatch && isDoneMatch;
       });
-
     },
     resetFilter: (state) => {
       state.filter = {
@@ -84,6 +92,12 @@ const todoSlice = createSlice({
   },
 });
 
-export const { addTodo, deleteTodo, editTodo, resetFilter, setFilter } =
-  todoSlice.actions;
+export const {
+  addTodo,
+  deleteTodo,
+  editTodo,
+  resetFilter,
+  setFilter,
+  setIndexTodo,
+} = todoSlice.actions;
 export default todoSlice.reducer;
